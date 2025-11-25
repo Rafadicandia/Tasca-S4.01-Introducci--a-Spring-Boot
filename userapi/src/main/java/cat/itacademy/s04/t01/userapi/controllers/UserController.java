@@ -8,11 +8,8 @@ import java.util.ArrayList;
 
 @RestController
 public class UserController {
-    private ArrayList<User> users;
+    private static ArrayList<User> users =  new ArrayList<>();;
 
-    public UserController() {
-        this.users = new ArrayList<>();
-    }
 
     @GetMapping("/users")
     public ArrayList<User> getUsers() {
