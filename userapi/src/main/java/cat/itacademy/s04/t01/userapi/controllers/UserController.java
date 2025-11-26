@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import static java.util.UUID.randomUUID;
@@ -17,9 +18,15 @@ public class UserController {
 
 
     @GetMapping("/users")
-    public ArrayList<User> getUsers() {
+    public ResponseEntity<List<User>> getUsers(@RequestParam(name = "name", required = false) String name) {
 
-        return users;
+        if (name == null || name.isEmpty()) {
+            return ResponseEntity.ok(users);
+        } else {
+            String nameToLoweCase = name.toLowerCase();
+            List<User> foundUser = users.stream().filter(users->users.getName().toLowerCase().contains(nameToLoweCase)).toList();
+            return ResponseEntity.ok(foundUser);
+        }
     }
 
     @PostMapping("/users")
