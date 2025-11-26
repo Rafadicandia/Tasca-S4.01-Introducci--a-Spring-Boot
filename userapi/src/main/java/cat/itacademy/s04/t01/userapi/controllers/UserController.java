@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.UUID;
+
+import static java.util.UUID.randomUUID;
 
 @RestController
 public class UserController {
@@ -23,7 +26,11 @@ public class UserController {
     @PostMapping("/users")
     public User createUser(@RequestBody UserRequestForNewUser user){
 
-        User newUser = new User();
+        UUID uuid = randomUUID();
+
+        User newUser = new User(uuid, user.getName(), user.getEmail());
+        users.add(newUser);
+
         return newUser;
     }
 
