@@ -1,10 +1,17 @@
 package cat.itacademy.s04.t01.userapi.controllers;
 
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.web.servlet.MockMvc;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 
 @WebMvcTest(UserController.class)
 class UserControllerTest {
@@ -17,9 +24,14 @@ class UserControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
-    void getUsers_returnsEmptyListInitially() {
+    void getUsers_returnsEmptyListInitially() throws Exception {
         // Simula GET /users
         // Espera un array buit
+
+        mockMvc.perform(get("/users"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[]"));
+
     }
 
     @Test
