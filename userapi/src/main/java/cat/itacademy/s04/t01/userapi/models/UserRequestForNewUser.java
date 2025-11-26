@@ -14,7 +14,6 @@ public class UserRequestForNewUser {
     }
 
 
-
     public String getEmail() {
         return email;
     }

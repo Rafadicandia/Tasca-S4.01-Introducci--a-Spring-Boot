@@ -13,8 +13,7 @@ import static java.util.UUID.randomUUID;
 
 @RestController
 public class UserController {
-    private static ArrayList<User> users =  new ArrayList<>();
-
+    private static ArrayList<User> users = new ArrayList<>();
 
 
     @GetMapping("/users")
@@ -24,13 +23,13 @@ public class UserController {
             return ResponseEntity.ok(users);
         } else {
             String nameToLoweCase = name.toLowerCase();
-            List<User> foundUser = users.stream().filter(users->users.getName().toLowerCase().contains(nameToLoweCase)).toList();
+            List<User> foundUser = users.stream().filter(users -> users.getName().toLowerCase().contains(nameToLoweCase)).toList();
             return ResponseEntity.ok(foundUser);
         }
     }
 
     @PostMapping("/users")
-    public User createUser(@RequestBody UserRequestForNewUser user){
+    public User createUser(@RequestBody UserRequestForNewUser user) {
 
         UUID uuid = randomUUID();
 
@@ -42,7 +41,7 @@ public class UserController {
 
     @GetMapping("/users/{id}")
     public ResponseEntity<User> readUser(@PathVariable(name = "id") UUID id) {
-        User foundUser = users.stream().filter(user->user.getId().equals(id)).findFirst().orElse(null);
+        User foundUser = users.stream().filter(user -> user.getId().equals(id)).findFirst().orElse(null);
 
         if (foundUser == null) {
             return ResponseEntity.notFound().build();
@@ -50,10 +49,6 @@ public class UserController {
             return ResponseEntity.ok(foundUser);
         }
     }
-
-
-
-
 
 
 }

@@ -1,8 +1,5 @@
 package cat.itacademy.s04.t01.userapi.models;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import java.util.UUID;
 
 
@@ -25,7 +22,6 @@ public class User {
     public String getName() {
         return name;
     }
-
 
 
     public String getEmail() {
