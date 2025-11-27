@@ -61,7 +61,6 @@ class UserControllerTest {
 
         User createdUser = objectMapper.readValue(responseJson, User.class);
 
-
         assert (createdUser.getId() != null);
 
         assert (createdUser.getName().equals(testUser.getName()));
@@ -75,14 +74,44 @@ class UserControllerTest {
         // Primer afegeix un usuari amb POST
         // Després GET /users/{id} i comprova que torni aquest usuari
 
+        String userJson = objectMapper.writeValueAsString(testUser); // Serializar a JSON
+
+        String responseJson = mockMvc.perform(MockMvcRequestBuilders.post("/users")
+                        .contentType("application/json")
+                        .content(userJson))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json"))
+                .andReturn().getResponse().getContentAsString();
+
+        User createdUser = objectMapper.readValue(responseJson, User.class);
+
+        assert (createdUser.getId() != null);
+
+        String userIdString = createdUser.getId().toString();
+
+        String getResponseJson = mockMvc.perform(MockMvcRequestBuilders.get("/users/{id}", userIdString))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json"))
+                .andReturn().getResponse().getContentAsString();
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/users/{id}", userIdString))
+                .andExpect(status().isOk())
+                .andExpect(content().json(responseJson));
+
 
     }
 
 
     @Test
-    void getUserById_returnsNotFoundIfMissing() {
+    void getUserById_returnsNotFoundIfMissing() throws Exception {
         // Simula GET /users/{id} amb un id aleatori
         // Espera 404
+        UUID testId = UUID.randomUUID();
+        String userIdString = testId.toString();
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/users/{id}", testId))
+                .andExpect(status().isNotFound())
+                ;
     }
 
     @Test
