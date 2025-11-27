@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.Collections;
 import java.util.UUID;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -111,13 +112,47 @@ class UserControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders.get("/users/{id}", testId))
                 .andExpect(status().isNotFound())
-                ;
+        ;
     }
 
     @Test
-    void getUsers_withNameParam_returnsFilteredUsers() {
+    void getUsers_withNameParam_returnsFilteredUsers() throws Exception {
         // Afegeix dos usuaris amb POST
         // Fa GET /users?name=jo i comprova que només torni els que contenen "jo"
+
+        User userTest2 = new User(null, "Jo", "jo@gmail.com");
+
+        String userJson = objectMapper.writeValueAsString(testUser);
+        String userJson2 = objectMapper.writeValueAsString(userTest2);
+
+        String responseJson = mockMvc.perform(MockMvcRequestBuilders.post("/users")
+                        .contentType("application/json")
+                        .content(userJson))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json"))
+                .andReturn().getResponse().getContentAsString();
+
+        String responseJson2 = mockMvc.perform(MockMvcRequestBuilders.post("/users")
+                        .contentType("application/json")
+                        .content(userJson2))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json"))
+                .andReturn().getResponse().getContentAsString();
+
+        User createdUser = objectMapper.readValue(responseJson, User.class);
+        User createdUser2 = objectMapper.readValue(responseJson2, User.class);
+
+        assert (createdUser.getId() != null);
+        assert (createdUser2.getId() != null);
+
+        String expectedFilteredJson = objectMapper.writeValueAsString(Collections.singletonList(createdUser2));
+
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/users")
+                        .param("name", createdUser2.getName()))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(content().json(expectedFilteredJson));
     }
 }
 
