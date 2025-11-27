@@ -36,8 +36,7 @@ class UserControllerTest {
 
     @Test
     void getUsers_returnsEmptyListInitially() throws Exception {
-        // Simula GET /users
-        // Espera un array buit
+
 
         mockMvc.perform(get("/users"))
                 .andExpect(status().isOk())
@@ -47,8 +46,6 @@ class UserControllerTest {
 
     @Test
     void createUser_returnsUserWithId() throws Exception {
-        // Simula POST /users amb JSON
-        // Espera que torni el mateix usuari amb UUID no nul
 
         String userJson = objectMapper.writeValueAsString(testUser); // Serializar a JSON
 
@@ -71,8 +68,6 @@ class UserControllerTest {
 
     @Test
     void getUserById_returnsCorrectUser() throws Exception {
-        // Primer afegeix un usuari amb POST
-        // Després GET /users/{id} i comprova que torni aquest usuari
 
         String userJson = objectMapper.writeValueAsString(testUser); // Serializar a JSON
 
@@ -104,8 +99,7 @@ class UserControllerTest {
 
     @Test
     void getUserById_returnsNotFoundIfMissing() throws Exception {
-        // Simula GET /users/{id} amb un id aleatori
-        // Espera 404
+
         UUID testId = UUID.randomUUID();
         String userIdString = testId.toString();
 
@@ -116,8 +110,6 @@ class UserControllerTest {
 
     @Test
     void getUsers_withNameParam_returnsFilteredUsers() throws Exception {
-        // Afegeix dos usuaris amb POST
-        // Fa GET /users?name=jo i comprova que només torni els que contenen "jo"
 
         User userTest2 = new User(null, "Jo", "jo@gmail.com");
 
