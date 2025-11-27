@@ -24,7 +24,7 @@ class UserControllerTest {
     @BeforeEach
     void setup() {
         UUID testId = UUID.randomUUID();
-        testUser = new User(testId, "Test", "test@test.com");
+        testUser = new User(null, "Test", "test@test.com");
     }
 
 
@@ -54,8 +54,8 @@ class UserControllerTest {
 
         String responseJson = mockMvc.perform(MockMvcRequestBuilders.post("/users")
                         .contentType("application/json")
-                        .content(userJson)) // ENVIAR el cuerpo JSON del usuario
-                .andExpect(status().isOk()) // Esperar 201 Created
+                        .content(userJson))
+                .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
                 .andReturn().getResponse().getContentAsString();
 
@@ -63,6 +63,9 @@ class UserControllerTest {
 
 
         assert (createdUser.getId() != null);
+
+        assert (createdUser.getName().equals(testUser.getName()));
+        assert (createdUser.getEmail().equals(testUser.getEmail()));
 
 
     }

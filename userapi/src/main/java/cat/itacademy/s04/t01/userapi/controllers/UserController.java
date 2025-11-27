@@ -30,12 +30,9 @@ public class UserController {
 
     @PostMapping("/users")
     public User createUser(@RequestBody UserRequestForNewUser user) {
-
         UUID uuid = randomUUID();
-
         User newUser = new User(uuid, user.getName(), user.getEmail());
         users.add(newUser);
-
         return newUser;
     }
 
