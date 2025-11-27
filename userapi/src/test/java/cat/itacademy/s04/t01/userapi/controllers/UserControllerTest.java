@@ -24,7 +24,6 @@ class UserControllerTest {
 
     @BeforeEach
     void setup() {
-        UUID testId = UUID.randomUUID();
         testUser = new User(null, "Test", "test@test.com");
     }
 
