@@ -4,6 +4,7 @@ import cat.itacademy.s04.t01.userapi.models.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,7 +21,7 @@ class InMemoryUserRepositoryTest {
         testUser = new User(testId, "Test User", "test@test.com");
         repository.save(testUser);
     }
-    
+
     @Test
     void save() {
         User newUser = new User(UUID.randomUUID(), "New User", "new@test.com");
@@ -33,6 +34,9 @@ class InMemoryUserRepositoryTest {
 
     @Test
     void findAll() {
+        List<User> users = repository.findAll();
+        assertEquals(1, users.size());
+        assertEquals(testUser, users.get(0));
     }
 
     @Test
