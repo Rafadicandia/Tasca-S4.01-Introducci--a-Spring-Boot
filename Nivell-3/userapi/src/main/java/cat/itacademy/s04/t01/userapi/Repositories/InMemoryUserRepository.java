@@ -21,7 +21,7 @@ public class InMemoryUserRepository implements UserRepository {
             User newUser = new User(newId, user.getName(), user.getEmail());
             userHashMap.put(newId, newUser);
             return newUser;
-        } else  {
+        } else {
             userHashMap.replace(user.getId(), user);
             return user;
         }
@@ -29,11 +29,12 @@ public class InMemoryUserRepository implements UserRepository {
 
     @Override
     public List<User> findAll() {
-        return List.of();
+        return List.copyOf(userHashMap.values());
     }
 
     @Override
     public Optional<User> findById(UUID id) {
+        User foundid = userHashMap.get(id);
         return Optional.empty();
     }
 
