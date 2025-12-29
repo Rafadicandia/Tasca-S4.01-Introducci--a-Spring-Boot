@@ -23,7 +23,7 @@ public class InMemoryUserRepository implements UserRepository {
             userHashMap.put(newId, newUser);
             return newUser;
         } else {
-            userHashMap.replace(user.getId(), user);
+            userHashMap.put(user.getId(), user);
             return user;
         }
     }
