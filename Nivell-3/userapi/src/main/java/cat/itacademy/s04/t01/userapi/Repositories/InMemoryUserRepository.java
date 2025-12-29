@@ -35,7 +35,7 @@ public class InMemoryUserRepository implements UserRepository {
     @Override
     public Optional<User> findById(UUID id) {
         User foundid = userHashMap.get(id);
-        return Optional.empty();
+        return Optional.ofNullable(foundid);
     }
 
     @Override
