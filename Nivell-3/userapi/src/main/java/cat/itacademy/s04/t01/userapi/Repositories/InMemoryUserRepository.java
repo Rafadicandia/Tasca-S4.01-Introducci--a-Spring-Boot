@@ -1,4 +1,4 @@
-package cat.itacademy.s04.t01.userapi.Repositories;
+package cat.itacademy.s04.t01.userapi.repositories;
 
 import cat.itacademy.s04.t01.userapi.Interfaces.UserRepository;
 import cat.itacademy.s04.t01.userapi.models.User;
@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Stream;
 
 @Repository
 public class InMemoryUserRepository implements UserRepository {

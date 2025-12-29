@@ -1,4 +1,4 @@
-package cat.itacademy.s04.t01.userapi.Repositories;
+package cat.itacademy.s04.t01.userapi.repositories;
 
 import cat.itacademy.s04.t01.userapi.models.User;
 import org.junit.jupiter.api.BeforeEach;
