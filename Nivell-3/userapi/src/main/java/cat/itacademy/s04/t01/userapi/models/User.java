@@ -4,9 +4,9 @@ import java.util.UUID;
 
 
 public class User {
-    private UUID id;
-    private String name;
-    private String email;
+    private final UUID id;
+    private final String name;
+    private final String email;
 
     public User(UUID id, String name, String email) {
         this.id = id;
