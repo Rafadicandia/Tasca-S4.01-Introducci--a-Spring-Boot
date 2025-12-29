@@ -41,10 +41,15 @@ class InMemoryUserRepositoryTest {
 
     @Test
     void findById() {
+        Optional<User> found = repository.findById(testId);
+        assertTrue(found.isPresent());
     }
 
     @Test
     void searchByName() {
+        List<User> result = repository.searchByName("Test User");
+        assertFalse(result.isEmpty());
+        assertEquals("Test User", result.getFirst().getName());
     }
 
     @Test
