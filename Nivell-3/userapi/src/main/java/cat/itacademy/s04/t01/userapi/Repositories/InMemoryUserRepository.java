@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 @Repository
 public class InMemoryUserRepository implements UserRepository {
@@ -40,7 +41,10 @@ public class InMemoryUserRepository implements UserRepository {
 
     @Override
     public List<User> searchByName(String name) {
-        return List.of();
+
+        return userHashMap.values().stream()
+                .filter(user -> user.getName().equalsIgnoreCase(name))
+                .toList();
     }
 
     @Override
