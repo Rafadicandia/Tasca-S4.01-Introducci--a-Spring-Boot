@@ -8,13 +8,73 @@ This project is the initial contact with **Spring Boot** and the development of 
 
 This exercise focuses on configuring and developing a simple REST API for user management.
 
-### Level 1: Creating a Minimal REST API
+## Level 3: Refactoring to a Layered Architecture
 
-The main objective is to set up and develop a basic REST API for managing users.
+This exercise focuses on evolving a basic API into a professional, scalable, and maintainable system by implementing a **Layered Architecture**. The goal is to separate concerns and adhere to **SOLID principles**, specifically the Single Responsibility Principle (SRP) and the Dependency Inversion Principle (DIP).
 
-* Configure the project at [https://start.spring.io/](https://start.spring.io/) with the specifications detailed in the configuration section below.
-* Implement minimal *endpoints* to demonstrate the API's ability to receive and return data in JSON format.
-* Use appropriate HTTP methods (e.g., GET, POST).
+---
+
+### 1. The Architectural Shift
+
+Currently, the `UserController` handles everything: HTTP requests, business logic, and data storage. We will break this down into three distinct layers:
+
+* **Controller Layer:** Manages HTTP requests and responses; delegates tasks to the Service.
+* **Service Layer:** The "brain" of the app. It contains business logic, rules, and validations.
+* **Repository Layer:** Manages data access (whether in-memory, a database, or an external API).
+
+---
+
+### 2. Implementation Steps
+
+#### Step A: Establishing an Integration Test
+
+Before moving code, convert your existing web tests into a full **Integration Test (End-to-End)**. This acts as a safety net to ensure the system still works after refactoring.
+
+* **Tools:** Switch from `@WebMvcTest` to `@SpringBootTest` and use `@AutoConfigureMockMvc`.
+* **Goal:** Verify that all layers work together correctly.
+
+#### Step B: The Repository Pattern
+
+Abstract your data access by creating a `UserRepository` interface. This allows the application to remain agnostic of how data is stored.
+
+1. Define the **Interface** (e.g., `save`, `findAll`, `findById`).
+2. Create a **Concrete Implementation** (e.g., `InMemoryUserRepository`) using a List.
+3. Annotate the implementation with `@Repository` to register it as a Spring Bean.
+
+#### Step C: The Service Layer
+
+Move business logic out of the controller and into a `UserService`.
+
+1. Define a `UserService` interface and a `UserServiceImpl` class.
+2. **Inject** the Repository into the Service via the constructor.
+3. Annotate with `@Service`.
+4. Update the Controller to call the Service instead of the Repository or List directly.
+
+---
+
+### 3. Unit Testing with Mockito & TDD
+
+Once the logic is in the Service layer, you can test it in isolation using **Mockito** to "mock" (simulate) the Repository.
+
+**Task: Unique Email Validation (TDD Approach)**
+Implement a rule where no two users can have the same email:
+
+1. **Write the test first:** Use `@ExtendWith(MockitoExtension.class)` and `@Mock` to simulate repository behavior.
+2. **Logic:** * If the email exists: Throw an `EmailAlreadyExistsException`.
+* If it doesn't: Generate a UUID and save the user.
+
+
+3. **Verify:** Ensure `repository.save()` is only called when the email is unique.
+
+---
+
+### Key Concepts to Master
+
+* **Spring Beans & Dependency Injection:** Understanding how Spring manages object lifecycles.
+* **Mockito:** Using `when(...).thenReturn(...)` and `verify()` for unit tests.
+* **TDD (Test-Driven Development):** Writing failing tests before writing the implementation code.
+
+Would you like me to provide a code template for the `UserServiceImplTest` using Mockito to help you get started?
 
 ---
 
@@ -60,7 +120,7 @@ The project was generated using [Spring Initializr](https://start.spring.io/) wi
 ## 🛠️ Installation
 1.  **Clone the Repository:**
     ```bash
-    git clone [ADD_REPOSITORY_URL_HERE]
+    git clone https://github.com/Rafadicandia/Tasca-S4.01-Introducci--a-Spring-Boot.git
     ```
 2.  **Configure Application Port:**
     Set the server port in the configuration file:
