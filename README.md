@@ -1,6 +1,4 @@
-This version preserves all the technical instructions while enhancing the professional formatting for a GitHub-style README. I have ensured the **Clone Repository** step is clearly visible.
 
----
 
 # 🚀 Task S4.01: Spring Boot REST API Foundation
 
